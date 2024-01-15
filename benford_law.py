@@ -4,10 +4,10 @@ import math
 def print_dict(data_p, data_c):
     benford_ls = [math.log10((n + 1) / n) * 100 for n in range(1, 10)]
 
-    print('| digit |  count  |  real  |theorical|', file = otp)
-    print('|-------|---------|--------|---------|', file = otp)
+    print('| digit |  count  |  real  |theorical| error rate |', file = otp)
+    print('|-------|---------|--------|---------|------------|', file = otp)
     for key in range(1, 10):
-        print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |'.format(key, data_c[key], data_p[key], benford_ls[key - 1]), file = otp)
+        print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |  {4:6.2f}%   |'.format(key, data_c[key], data_p[key], benford_ls[key - 1], benford_ls[key - 1] - data_p[key]), file = otp)
 
 
 def benfordLaw(ls_data):
