@@ -84,9 +84,9 @@ if __name__ == '__main__':
     print(f'\n全台總票數: {total_vote_people}', file = otp)
     print(f'\n一號柯盈得票: {each_vote_people[1]}', file = otp)
     benfordLaw(cadidate1)
-    print(f'\n二號侯康: {each_vote_people[2]}', file = otp)
+    print(f'\n二號侯康得票: {each_vote_people[2]}', file = otp)
     benfordLaw(cadidate2)
-    print(f'\n三號美德: {each_vote_people[3]}', file = otp)
+    print(f'\n三號美德得票: {each_vote_people[3]}', file = otp)
     benfordLaw(cadidate3)
     print('', file = otp)
 
