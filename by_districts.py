@@ -46,6 +46,7 @@ if __name__ == '__main__':
     cadidate1 = []
     cadidate2 = []
     cadidate3 = []
+    all_candidates = []
     total_vote_people = 0
     each_vote_people = [0 for i in range(0, 4)]
     sum_total = [0 for i in range(0, 4)]
@@ -72,11 +73,16 @@ if __name__ == '__main__':
                 cadidate1.append(each_vote_people[1])
                 cadidate2.append(each_vote_people[2])
                 cadidate3.append(each_vote_people[3])
+                all_candidates.append(sum(each_vote_people))
 
                 for i in range(1, 4):
                     each_vote_people[i] = 0
                 
-
+    cadidate1.append(each_vote_people[1])
+    cadidate2.append(each_vote_people[2])
+    cadidate3.append(each_vote_people[3])
+    all_candidates.append(sum(each_vote_people))
+    
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', file = otp)
     print(f'\n全台總票數: {total_vote_people}', file = otp)
     print(f'\n一號柯盈得票: {sum_total[1]}', file = otp)
@@ -87,7 +93,6 @@ if __name__ == '__main__':
     benfordLaw(cadidate3)
     print('', file = otp)
 
-    all_candidates = cadidate1 + cadidate2 + cadidate3
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n', file = otp)
     print(f'總票數統計: {total_vote_people}', file = otp)
     benfordLaw(all_candidates)
