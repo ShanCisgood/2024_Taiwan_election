@@ -17,7 +17,7 @@ def print_dict(data_p, data_c):
     print('|-------|---------|--------|---------|------------|', file = otp)
     for key in range(1, 10):
         print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |  {4:6.2f}%   |'.format(key, data_c[key], data_p[key], benford_ls[key - 1], benford_ls[key - 1] - data_p[key]), file = otp)
-
+    print('', file = otp)
 
 def benfordLaw(ls_data):
 
@@ -43,9 +43,9 @@ if __name__ == '__main__':
                     '雲林', '嘉市', '嘉縣', '台南', '高雄',
                     '屏東', '宜蘭', '花蓮', '台東', '金門',
                     '連江', '澎湖']
-    cadidate1 = []
-    cadidate2 = []
-    cadidate3 = []
+    print_arr = ['', '\n一號柯盈得票: ', '\n二號美德得票: ', '\n三號侯康得票: ']
+
+    candidates = [[] for i in range(4)]
     all_candidates = []
     total_vote_people = 0
     each_vote_people = [0 for i in range(0, 4)]
@@ -70,32 +70,25 @@ if __name__ == '__main__':
                     sum_total[i] += int(row[2 + i])
 
             if len(row[0]) > 0 and row[0][-1] in '鄉鎮市區':
-                cadidate1.append(each_vote_people[1])
-                cadidate2.append(each_vote_people[2])
-                cadidate3.append(each_vote_people[3])
+                for i in range(1, 4):
+                    candidates[i].append(each_vote_people[i])
                 all_candidates.append(sum(each_vote_people))
 
                 for i in range(1, 4):
                     each_vote_people[i] = 0
                 
-    cadidate1.append(each_vote_people[1])
-    cadidate2.append(each_vote_people[2])
-    cadidate3.append(each_vote_people[3])
+    for i in range(1, 4):
+        candidates[i].append(each_vote_people[i])
     all_candidates.append(sum(each_vote_people))
     
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', file = otp)
     print(f'\n全台總票數: {total_vote_people}', file = otp)
-    print(f'\n一號柯盈得票: {sum_total[1]}', file = otp)
-    benfordLaw(cadidate1)
-    print(f'\n二號侯康得票: {sum_total[2]}', file = otp)
-    benfordLaw(cadidate2)
-    print(f'\n三號美德得票: {sum_total[3]}', file = otp)
-    benfordLaw(cadidate3)
-    print('', file = otp)
+    for i in range(1, 4):
+        print(f'{print_arr[i]}{sum_total[i]}', file = otp)
+        benfordLaw(candidates[i])
 
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n', file = otp)
     print(f'總票數統計: {total_vote_people}', file = otp)
     benfordLaw(all_candidates)
-    print('', file = otp)
 
     otp.close()

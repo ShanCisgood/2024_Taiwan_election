@@ -18,7 +18,7 @@ def print_dict(data_p, data_c):
     print('|-------|---------|--------|---------|------------|', file = otp)
     for key in range(1, 10):
         print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |  {4:6.2f}%   |'.format(key, data_c[key], data_p[key], benford_ls[key - 1], benford_ls[key - 1] - data_p[key]), file = otp)
-
+    print('', file = otp)
 
 def benfordLaw(ls_data):
 
@@ -44,9 +44,10 @@ if __name__ == '__main__':
                     '雲林', '嘉市', '嘉縣', '台南', '高雄',
                     '屏東', '宜蘭', '花蓮', '台東', '金門',
                     '連江', '澎湖']
-    cadidate1 = []
-    cadidate2 = []
-    cadidate3 = []
+    print_arr = ['', '\n一號柯盈得票: ', '\n二號美德得票: ', '\n三號侯康得票: ']
+
+    all_candidates = []
+    candidates = [[] for i in range(4)]
     total_vote_people = 0
     each_vote_people = [0 for i in range(0, 4)]
 
@@ -56,9 +57,7 @@ if __name__ == '__main__':
     for cities in filename_arr:
         
         # init 
-        one_total_gets = []
-        two_total_gets = []
-        three_total_gets = []
+        total_gets = [[] for i in range(0, 4)]
         total = 0
         filename = f'city_list\{cities}.csv'
 
@@ -67,43 +66,30 @@ if __name__ == '__main__':
         reader = csv.reader(f)
         for row in reader:
             if row[2].isnumeric():
-                one_total_gets.append(int(row[3]))
-                two_total_gets.append(int(row[4]))
-                three_total_gets.append(int(row[5]))
-                cadidate1.append(int(row[3]))
-                cadidate2.append(int(row[4]))
-                cadidate3.append(int(row[5]))
+                for i in range(1, 4):
+                    total_gets[i].append(int(row[2 + i]))
+                    candidates[i].append(int(row[2 + i]))
+                    each_vote_people[i] += int(row[2 + i])
 
                 cnt = int(row[3]) + int(row[4]) + int(row[5])
                 total += cnt
-                total_vote_people += cnt
-                for i in range(1, 4):
-                    each_vote_people[i] += int(row[2 + i])
+                total_vote_people += cnt   
+                all_candidates.append(cnt)
 
         print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', file = otp)
         print(f'\n{cities}總票數: {total}', file = otp)
-        print('\n一號: 柯盈', file = otp)
-        benfordLaw(one_total_gets)
-        print('\n二號: 侯康', file = otp)
-        benfordLaw(two_total_gets)
-        print('\n三號: 美德', file = otp)
-        benfordLaw(three_total_gets)
-        print('', file = otp)
+        for i in range(1, 4):
+            print(f'{print_arr[i]}{sum(total_gets[i])}', file = otp)
+            benfordLaw(total_gets[i])
 
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<', file = otp)
     print(f'\n全台總票數: {total_vote_people}', file = otp)
-    print(f'\n一號柯盈得票: {each_vote_people[1]}', file = otp)
-    benfordLaw(cadidate1)
-    print(f'\n二號侯康得票: {each_vote_people[2]}', file = otp)
-    benfordLaw(cadidate2)
-    print(f'\n三號美德得票: {each_vote_people[3]}', file = otp)
-    benfordLaw(cadidate3)
-    print('', file = otp)
+    for i in range(1, 4):
+        print(f'{print_arr[i]}{each_vote_people[i]}', file = otp)
+        benfordLaw(candidates[i])
 
-    all_candidates = cadidate1 + cadidate2 + cadidate3
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n', file = otp)
     print(f'總票數統計: {total_vote_people}', file = otp)
     benfordLaw(all_candidates)
-    print('', file = otp)
 
     otp.close()
