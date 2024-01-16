@@ -9,6 +9,7 @@
 
 import csv
 import math
+import matplotlib.pyplot as plt
 
 def print_dict(data_p, data_c):
     benford_ls = [math.log10((n + 1) / n) * 100 for n in range(1, 10)]
@@ -18,6 +19,8 @@ def print_dict(data_p, data_c):
     for key in range(1, 10):
         print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |  {4:6.2f}%   |'.format(key, data_c[key], data_p[key], benford_ls[key - 1], benford_ls[key - 1] - data_p[key]), file = otp)
     print('', file = otp)
+
+    plotting(data_p, benford_ls)
 
 def benfordLaw(ls_data):
 
@@ -35,6 +38,22 @@ def benfordLaw(ls_data):
 
     # print
     print_dict(persent, count)
+
+def plotting(data, benford_ls):
+    x = [i for i in range(1, 10)]
+
+    plt.style.use('ggplot')
+    plt.plot(x, benford_ls, label='Benford\'s Distribution', color='blue')
+
+    y = data
+    y.pop(0)
+    plt.bar(x, y)
+
+    plt.ylabel('Percentage')
+    plt.xlabel('Number')
+    plt.xticks(x)
+    plt.legend()
+    plt.show()
 
 if __name__ == '__main__':
 
