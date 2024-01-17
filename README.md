@@ -10,5 +10,10 @@
 >在by_districts.py是使用全臺灣各鄉鎮市區做統計
 >並以output_by_districts.txt作為輸出
 >
+>result_plot是把資料畫成圖的結果
+>
+>由於只有以鄉鎮市區作為劃分的資料比較準
+>因此result_plot資料夾當中都是以鄉鎮市區作為劃分統計的繪圖
+>
 >各縣市投票資料來源: 中央選舉委員會
 >https://vote2024.cec.gov.tw/zh-TW/indexP.html
