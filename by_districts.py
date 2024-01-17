@@ -46,7 +46,7 @@ def plotting(data, benford_ls):
     x = [i for i in range(1, 10)]
 
     plt.style.use('ggplot')
-    plt.plot(x, benford_ls, label='Benford\'s Distribution', color='blue')
+    plt.plot(x, benford_ls, 'b-o', label='Benford\'s Distribution')
 
     y = data
     y.pop(0)
@@ -61,20 +61,20 @@ def plotting(data, benford_ls):
 def all_plotting(data, benford_ls):
     x = [i for i in range(1, 10)]
     xp = np.arange(len(x))
-    colors = ['lightblue', 'green', 'blue', 'grey']
+    colors = ['#28C8C8', '#1B9431', '#000095', '#999999']
     lables = ['candidate_1', 'candidate_2', 'candidate_3', 'all']
     width = 0.125
     plt.style.use('ggplot')
-    plt.plot(xp, benford_ls, label='Benford\'s Distribution', color='blue')
+    plt.plot(xp, benford_ls, 'b-o', label='Benford\'s Distribution')
     
     for i in range(0, 4):
         y = data[i]
-        plt.bar(xp + (width + 0.065) * i, y, width + 0.095, color = colors[i], label = lables[i])
+        plt.bar(xp + width * 1.5 * (i - 1.2) - 0.05, y, width * 1.5, color = colors[i], label = lables[i])
 
     plt.title('final result')
     plt.xlabel('Number')
     plt.ylabel('Probability(Percentage)')
-    plt.xticks(xp + width * 2, x)
+    plt.xticks(xp, x)
     plt.legend()
     plt.show()
 
