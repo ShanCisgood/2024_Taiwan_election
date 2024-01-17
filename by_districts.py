@@ -10,9 +10,11 @@
 import csv
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 
-def print_dict(data_p, data_c):
-    benford_ls = [math.log10((n + 1) / n) * 100 for n in range(1, 10)]
+all_plot_data = []
+
+def print_dict(data_p, data_c, benford_ls):
 
     print('| digit |  count  |  real  |theorical| error rate |', file = otp)
     print('|-------|---------|--------|---------|------------|', file = otp)
@@ -20,9 +22,10 @@ def print_dict(data_p, data_c):
         print('| {0:3d}   |{1:7d}  | {2:5.2f}% |  {3:5.2f}% |  {4:6.2f}%   |'.format(key, data_c[key], data_p[key], benford_ls[key - 1], benford_ls[key - 1] - data_p[key]), file = otp)
     print('', file = otp)
 
+    all_plot_data.append(data_p)
     plotting(data_p, benford_ls)
 
-def benfordLaw(ls_data):
+def benfordLaw(ls_data, benford_ls):
 
     # initial process
     num = len(ls_data)
@@ -37,7 +40,7 @@ def benfordLaw(ls_data):
         persent[i] = round((count[i] / num * 100), 2)
 
     # print
-    print_dict(persent, count)
+    print_dict(persent, count, benford_ls)
 
 def plotting(data, benford_ls):
     x = [i for i in range(1, 10)]
@@ -55,8 +58,29 @@ def plotting(data, benford_ls):
     plt.legend()
     plt.show()
 
+def all_plotting(data, benford_ls):
+    x = [i for i in range(1, 10)]
+    xp = np.arange(len(x))
+    colors = ['lightblue', 'green', 'blue', 'grey']
+    lables = ['candidate_1', 'candidate_2', 'candidate_3', 'all']
+    width = 0.125
+    plt.style.use('ggplot')
+    plt.plot(xp, benford_ls, label='Benford\'s Distribution', color='blue')
+    
+    for i in range(0, 4):
+        y = data[i]
+        plt.bar(xp + (width + 0.065) * i, y, width + 0.095, color = colors[i], label = lables[i])
+
+    plt.title('final result')
+    plt.xlabel('Number')
+    plt.ylabel('Probability(Percentage)')
+    plt.xticks(xp + width * 2, x)
+    plt.legend()
+    plt.show()
+
 if __name__ == '__main__':
 
+    benford_ls = [math.log10((n + 1) / n) * 100 for n in range(1, 10)]
     filename_arr = ['台北', '新北', '基隆', '桃園', '竹市', 
                     '竹縣', '苗栗', '台中', '彰化', '南投',
                     '雲林', '嘉市', '嘉縣', '台南', '高雄',
@@ -104,10 +128,12 @@ if __name__ == '__main__':
     print(f'\n全台總票數: {total_vote_people}', file = otp)
     for i in range(1, 4):
         print(f'{print_arr[i]}{sum_total[i]}', file = otp)
-        benfordLaw(candidates[i])
+        benfordLaw(candidates[i], benford_ls)
 
     print('<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<\n', file = otp)
     print(f'總票數統計: {total_vote_people}', file = otp)
-    benfordLaw(all_candidates)
+    benfordLaw(all_candidates, benford_ls)
 
     otp.close()
+
+    all_plotting(all_plot_data, benford_ls)
